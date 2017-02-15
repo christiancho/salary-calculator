@@ -5,14 +5,14 @@ html, body {
   padding: 0;
 }
 
-header {
+header, footer {
   background-color: #ddd;
   padding: 30px;
 }
 
 main {
   width: 400px;
-  margin: 0 auto;
+  margin: 20px auto;
 }
 
 label {
