@@ -7,24 +7,34 @@ html, body {
 
 header, footer {
   background-color: #ddd;
-  padding: 30px;
+  padding: 1em 2em;
 }
 
 main {
   width: 400px;
-  margin: 20px auto;
+  margin: 1em auto;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+p {
+  font-size: 1.5em;
+}
+
+label, input {
+  font-size: 1em;
 }
 
 label {
   display: flex;
   justify-content: flex-end;
-  margin: 20px 0px;
-  font-size: 18px;
+  margin: 1em 0;
 }
 
 label > * {
-  margin: 0px 20px;
-  font-size: 18px;
+  margin: 0 1em;
 }
 
 table {
@@ -34,8 +44,7 @@ table {
 
 th, td {
   border: 1px dotted black;
-  font-size: 14px;
-  padding: 5px;
+  padding: 0.5em;
   overflow: hidden;
   text-overflow: ellipsis;;
 }
@@ -62,6 +71,38 @@ th, td {
 }
 
 .detail > td {
-  padding-left: 20px;
-  font-size: 12px;
+  padding-left: 1em;
+}
+
+@media only screen and (max-device-width: 720px) {
+
+  header, main, footer {
+    padding: 1em;
+    width: 100%;
+  }
+
+  h1 {
+    font-size: 60px;
+  }
+
+  p {
+    font-size: 0.75em;
+  }
+
+  label, input {
+    font-size: 48px;
+  }
+
+  input {
+    width: 33%;
+  }
+
+  table * {
+    font-size: 48px;
+  }
+
+  table .detail > td {
+    font-size: 36px;
+  }
+
 }
