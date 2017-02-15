@@ -21806,6 +21806,8 @@ var SalaryForm = function (_React$Component) {
       var firstPayment = this.totalComp() * this.state.repayPercent * 0.25 / 100;
       var monthlyPayment = this.totalComp() * this.state.repayPercent * 0.125 / 100;
 
+      var unpaid = firstPayment > this.state.deposit ? firstPayment - this.state.deposit : 0;
+
       var takeHome = ((this.totalComp() - totalTax) / 12).toFixed(2) - monthlyPayment;
 
       return _react2.default.createElement(
@@ -21900,6 +21902,20 @@ var SalaryForm = function (_React$Component) {
           ),
           _react2.default.createElement(
             'tr',
+            { className: 'payment detail' },
+            _react2.default.createElement(
+              'td',
+              null,
+              'Amount of First Payment Unpaid by Deposit'
+            ),
+            _react2.default.createElement(
+              'td',
+              { className: 'money' },
+              "$ " + unpaid.toFixed(2)
+            )
+          ),
+          _react2.default.createElement(
+            'tr',
             { className: 'payment' },
             _react2.default.createElement(
               'td',
@@ -21928,7 +21944,7 @@ var SalaryForm = function (_React$Component) {
           ),
           _react2.default.createElement(
             'tr',
-            { className: 'take-home' },
+            { className: 'take-home detail' },
             _react2.default.createElement(
               'td',
               null,

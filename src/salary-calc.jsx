@@ -96,6 +96,8 @@ class SalaryForm extends React.Component {
     const firstPayment = (this.totalComp() * this.state.repayPercent * 0.25 / 100);
     const monthlyPayment = (this.totalComp() * this.state.repayPercent * 0.125 / 100);
 
+    const unpaid = (firstPayment > this.state.deposit) ? (firstPayment - this.state.deposit) : 0;
+
     const takeHome = (((this.totalComp() - totalTax) / 12).toFixed(2) - monthlyPayment);
 
     return (
@@ -129,6 +131,11 @@ class SalaryForm extends React.Component {
             <td className="money">{ "$ " + firstPayment.toFixed(2) }</td>
           </tr>
 
+          <tr className="payment detail">
+            <td>Amount of First Payment Unpaid by Deposit</td>
+            <td className="money">{ "$ " + unpaid.toFixed(2) }</td>
+          </tr>
+
           <tr className="payment">
             <td>Next 6 Payments</td>
             <td className="money">{ "$ " + monthlyPayment.toFixed(2) }</td>
@@ -139,7 +146,7 @@ class SalaryForm extends React.Component {
             <td className="money">{ "$ " + takeHome.toFixed(2) }</td>
           </tr>
 
-          <tr className="take-home">
+          <tr className="take-home detail">
             <td>Monthly Net (After a/A Payments)</td>
             <td className="money">{ "$ " + (takeHome + monthlyPayment).toFixed(2) }</td>
           </tr>
