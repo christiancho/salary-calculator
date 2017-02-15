@@ -19,7 +19,7 @@ class SalaryForm extends React.Component {
   updateContent(e, prop) {
 
     this.setState({
-      [prop]: e.currentTarget.value
+      [prop]: e.currentTarget.value ? e.currentTarget.value : 0
     });
 
   }
@@ -93,10 +93,10 @@ class SalaryForm extends React.Component {
 
     const totalTax = federalTax + FICATax + NYSTax + NYCTax;
 
-    const firstPayment = (this.totalComp() * this.state.repayPercent * 0.25 / 100).toFixed(2);
-    const monthlyPayment = (this.totalComp() * this.state.repayPercent * 0.125 / 100).toFixed(2);
+    const firstPayment = (this.totalComp() * this.state.repayPercent * 0.25 / 100);
+    const monthlyPayment = (this.totalComp() * this.state.repayPercent * 0.125 / 100);
 
-    const takeHome = ((this.totalComp() - totalTax) / 12).toFixed(2) - monthlyPayment;
+    const takeHome = (((this.totalComp() - totalTax) / 12).toFixed(2) - monthlyPayment);
 
     return (
       <table>
@@ -109,34 +109,39 @@ class SalaryForm extends React.Component {
 
           <tr className="tax">
             <td>Federal Tax Liability</td>
-            <td>{ federalTax }</td>
+            <td className="money">{ "$ " + federalTax.toFixed(2) }</td>
           </tr>
           <tr className="tax">
             <td>FICA</td>
-            <td>{ FICATax }</td>
+            <td className="money">{ "$ " + FICATax.toFixed(2) }</td>
           </tr>
           <tr className="tax">
             <td>NY State Tax</td>
-            <td>{ NYSTax }</td>
+            <td className="money">{ "$ " + NYSTax.toFixed(2) }</td>
           </tr>
           <tr className="tax">
             <td>NYC Tax</td>
-            <td>{ NYCTax }</td>
+            <td className="money">{ "$ " + NYCTax.toFixed(2) }</td>
           </tr>
 
           <tr className="payment">
             <td>App Academy First Payment</td>
-            <td>{ firstPayment }</td>
+            <td className="money">{ "$ " + firstPayment.toFixed(2) }</td>
           </tr>
 
           <tr className="payment">
             <td>Next 6 Payments</td>
-            <td>{ monthlyPayment }</td>
+            <td className="money">{ "$ " + monthlyPayment.toFixed(2) }</td>
           </tr>
 
           <tr className="take-home">
-            <td>Your Net Take-Home</td>
-            <td>{ takeHome }</td>
+            <td>Monthly Net (With a/A Payments)</td>
+            <td className="money">{ "$ " + takeHome.toFixed(2) }</td>
+          </tr>
+
+          <tr className="take-home">
+            <td>Monthly Net (After a/A Payments)</td>
+            <td className="money">{ "$ " + (takeHome + monthlyPayment).toFixed(2) }</td>
           </tr>
 
         </tbody>

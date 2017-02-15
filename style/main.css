@@ -1,0 +1,62 @@
+html, body {
+  background-color: #eee;
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #ddd;
+  padding: 30px;
+}
+
+main {
+  width: 400px;
+  margin: 0 auto;
+}
+
+label {
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px 0px;
+  font-size: 18px;
+}
+
+label > * {
+  margin: 0px 20px;
+  font-size: 18px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  border: 1px dotted black;
+  font-size: 14px;
+  padding: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;;
+}
+
+.headings {
+  background-color: #ddd;
+}
+
+.tax {
+  background-color: #d99;
+}
+
+.payment {
+  background-color: #ebb;
+}
+
+.take-home {
+  background-color: #beb;
+}
+
+.money {
+  text-align: right;
+  width: 40%;
+}
