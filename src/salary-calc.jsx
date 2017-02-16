@@ -93,9 +93,9 @@ class SalaryForm extends React.Component {
     return isNaN(percent) ? "" : percent.toFixed(2) + "%";
   }
 
-  taxRow(description, tax){
+  taxRow(description, tax, klass = "tax"){
     return (
-      <tr className="tax">
+      <tr className={ klass }>
         <td>{ description }</td>
         <td className="money">{ this.parseMoney(tax) }</td>
         <td className="percentage">{ this.percentOfIncome(tax) }</td>
@@ -131,17 +131,17 @@ class SalaryForm extends React.Component {
             </tr>
 
             { this.taxRow("Federal Tax", federalTax) }
-            { this.taxRow("FICA", FICATax) }
-            { this.taxRow("NYS Tax", NYSTax) }
-            { this.taxRow("NYCTax", NYCTax) }
-            { this.taxRow("Total Tax", totalTax) }
+            { this.taxRow("FICA (SS & Medicare)", FICATax) }
+            { this.taxRow("NY State Tax", NYSTax) }
+            { this.taxRow("NY City Tax", NYCTax) }
+            { this.taxRow("Total Tax", totalTax, "tax total-tax") }
 
           </tbody>
         </table>
 
         <table>
           <tbody>
-            <tr>
+            <tr className="headings">
               <th>App Academy Payment</th>
               <th>Amount</th>
             </tr>
@@ -167,7 +167,7 @@ class SalaryForm extends React.Component {
         <table>
           <tbody>
 
-            <tr>
+            <tr className="headings">
               <th>Take-Home</th>
               <th>Amount</th>
             </tr>
