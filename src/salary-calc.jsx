@@ -84,6 +84,25 @@ class SalaryForm extends React.Component {
     });
   }
 
+  parseMoney(amount){
+    return "$ " + amount.toFixed(2);
+  }
+
+  percentOfIncome(amount){
+    const percent = amount / this.totalComp() * 100;
+    return isNaN(percent) ? "" : percent.toFixed(2) + "%";
+  }
+
+  taxRow(description, tax){
+    return (
+      <tr className="tax">
+        <td>{ description }</td>
+        <td className="money">{ this.parseMoney(tax) }</td>
+        <td className="percentage">{ this.percentOfIncome(tax) }</td>
+      </tr>
+    );
+  }
+
   generateResults() {
 
     const federalTax = this.federalTax();
@@ -101,58 +120,71 @@ class SalaryForm extends React.Component {
     const takeHome = (((this.totalComp() - totalTax) / 12).toFixed(2) - monthlyPayment);
 
     return (
-      <table>
-        <tbody>
+      <section className="tables-wrapper">
+        <table>
+          <tbody>
 
-          <tr className="headings">
-            <th>Category</th>
-            <th>Amount</th>
-          </tr>
+            <tr className="headings">
+              <th>Taxes</th>
+              <th>Amount</th>
+              <th>%</th>
+            </tr>
 
-          <tr className="tax">
-            <td>Federal Tax Liability</td>
-            <td className="money">{ "$ " + federalTax.toFixed(2) }</td>
-          </tr>
-          <tr className="tax">
-            <td>FICA</td>
-            <td className="money">{ "$ " + FICATax.toFixed(2) }</td>
-          </tr>
-          <tr className="tax">
-            <td>NY State Tax</td>
-            <td className="money">{ "$ " + NYSTax.toFixed(2) }</td>
-          </tr>
-          <tr className="tax">
-            <td>NYC Tax</td>
-            <td className="money">{ "$ " + NYCTax.toFixed(2) }</td>
-          </tr>
+            { this.taxRow("Federal Tax", federalTax) }
+            { this.taxRow("FICA", FICATax) }
+            { this.taxRow("NYS Tax", NYSTax) }
+            { this.taxRow("NYCTax", NYCTax) }
+            { this.taxRow("Total Tax", totalTax) }
 
-          <tr className="payment">
-            <td>App Academy First Payment</td>
-            <td className="money">{ "$ " + firstPayment.toFixed(2) }</td>
-          </tr>
+          </tbody>
+        </table>
 
-          <tr className="payment detail">
-            <td>Amount of First Payment Unpaid by Deposit</td>
-            <td className="money">{ "$ " + unpaid.toFixed(2) }</td>
-          </tr>
+        <table>
+          <tbody>
+            <tr>
+              <th>App Academy Payment</th>
+              <th>Amount</th>
+            </tr>
 
-          <tr className="payment">
-            <td>Next 6 Payments</td>
-            <td className="money">{ "$ " + monthlyPayment.toFixed(2) }</td>
-          </tr>
+            <tr className="payment">
+              <td>App Academy First Payment</td>
+              <td className="money">{ "$ " + firstPayment.toFixed(2) }</td>
+            </tr>
 
-          <tr className="take-home">
-            <td>Monthly Net (With a/A Payments)</td>
-            <td className="money">{ "$ " + takeHome.toFixed(2) }</td>
-          </tr>
+            <tr className="payment detail">
+              <td>First Payment Unpaid by Deposit</td>
+              <td className="money">{ "$ " + unpaid.toFixed(2) }</td>
+            </tr>
 
-          <tr className="take-home detail">
-            <td>Monthly Net (After a/A Payments)</td>
-            <td className="money">{ "$ " + (takeHome + monthlyPayment).toFixed(2) }</td>
-          </tr>
+            <tr className="payment">
+              <td>Next 6 Payments</td>
+              <td className="money">{ "$ " + monthlyPayment.toFixed(2) }</td>
+            </tr>
 
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+
+        <table>
+          <tbody>
+
+            <tr>
+              <th>Take-Home</th>
+              <th>Amount</th>
+            </tr>
+
+            <tr className="take-home">
+              <td>Monthly Net (With a/A Payments)</td>
+              <td className="money">{ "$ " + takeHome.toFixed(2) }</td>
+            </tr>
+
+            <tr className="take-home detail">
+              <td>(After a/A Payments)</td>
+              <td className="money">{ "$ " + (takeHome + monthlyPayment).toFixed(2) }</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </section>
     );
   }
 
