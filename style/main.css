@@ -23,7 +23,7 @@ p {
   font-size: 1.5em;
 }
 
-label, input {
+label, input, select {
   font-size: 1em;
 }
 
@@ -102,7 +102,7 @@ th, td {
     font-size: 0.75em;
   }
 
-  label, input {
+  label, input, select{
     font-size: 48px;
   }
 

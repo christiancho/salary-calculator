@@ -6,11 +6,15 @@ class SalaryForm extends React.Component {
   constructor() {
     super();
 
+    this.NYC = "New York City";
+    this.SF = "San Francisco";
+
     this.state = {
       deposit: 5000,
       repayPercent: 18,
       baseSalary: 0,
       signingBonus: 0,
+      city: this.NYC,
     };
 
     this.updateContent = this.updateContent.bind(this);
@@ -84,6 +88,27 @@ class SalaryForm extends React.Component {
     });
   }
 
+  CATax() {
+    return this.taxBracketCalculator({
+      7850: 0.01,
+      18610: 0.02,
+      29372: 0.04,
+      40773: 0.06,
+      51530: 0.08,
+      263222: 0.093,
+      315866: 0.103,
+      526443: 0.113,
+      1000000: 0.123
+    })
+  }
+
+  // SF has flat tax rate of 1.5%, using $1MM as placeholder
+  SFTax() {
+    return this.taxBracketCalculator({
+      1000000: 0.015
+    })
+  }
+
   parseMoney(amount){
     return "$ " + amount.toFixed(2);
   }
@@ -95,7 +120,7 @@ class SalaryForm extends React.Component {
 
   taxRow(description, tax, klass = "tax"){
     return (
-      <tr className={ klass }>
+      <tr className={ klass } key={`${description} tax`}>
         <td>{ description }</td>
         <td className="money">{ this.parseMoney(tax) }</td>
         <td className="percentage">{ this.percentOfIncome(tax) }</td>
@@ -103,14 +128,35 @@ class SalaryForm extends React.Component {
     );
   }
 
+  // Returns taxRows depending on this.state.city
+  getStateAndCityTaxes(stateTax, cityTax) {
+    if(this.state.city === this.NYC) {
+      return([
+        this.taxRow("NY State Tax", stateTax),
+        this.taxRow("NY City Tax", cityTax)
+      ])
+    } else if (this.state.city === this.SF) {
+      return([
+        this.taxRow("CA State Tax", stateTax),
+        this.taxRow("San Francisco Tax", cityTax)
+      ])
+    }
+  }
+
   generateResults() {
 
     const federalTax = this.federalTax();
     const FICATax = this.FICATax();
-    const NYSTax = this.NYSTax();
-    const NYCTax = this.NYCTax();
+    let stateTax, cityTax;
+    if (this.state.city === this.NYC) {
+      stateTax = this.NYSTax();
+      cityTax = this.NYCTax();
+    } else if (this.state.city === this.SF) {
+      stateTax = this.CATax();
+      cityTax = this.SFTax();
+    }
 
-    const totalTax = federalTax + FICATax + NYSTax + NYCTax;
+    const totalTax = federalTax + FICATax + stateTax + cityTax;
 
     const firstPayment = (this.totalComp() * this.state.repayPercent * 0.25 / 100);
     const monthlyPayment = (this.totalComp() * this.state.repayPercent * 0.125 / 100);
@@ -132,8 +178,7 @@ class SalaryForm extends React.Component {
 
             { this.taxRow("Federal Tax", federalTax) }
             { this.taxRow("FICA (SS & Medicare)", FICATax) }
-            { this.taxRow("NY State Tax", NYSTax) }
-            { this.taxRow("NY City Tax", NYCTax) }
+            { this.getStateAndCityTaxes(stateTax, cityTax) }
             { this.taxRow("Total Tax", totalTax, "tax total-tax") }
 
           </tbody>
@@ -228,6 +273,17 @@ class SalaryForm extends React.Component {
         </label>
 
         <hr />
+
+        <h2>City</h2>
+      
+        <label>
+          <select
+            value={ this.state.city }
+            onChange={ e => this.updateContent(e, 'city') }>
+            <option value={this.NYC}>New York City</option>
+            <option value={this.SF}>San Francisco</option>
+          </select>
+        </label>
 
         <h2>Results</h2>
 
